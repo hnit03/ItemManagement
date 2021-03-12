@@ -18,12 +18,27 @@ import nhinh.utils.MyConnection;
 public class UserDAO {
 
     private static final String DIS_UP_AND_LOW = "SQL_Latin1_General_CP1_CS_AS";
-
+    Connection con = null;
+    PreparedStatement ps = null;
+    ResultSet rs = null;
+    
+    private void closeConnection() throws SQLException {
+        if (rs != null) {
+            rs.close();
+        }
+        if (sm != null) {
+            sm.close();
+        }
+        if (ps != null) {
+            ps.close();
+        }
+        if (con != null) {
+            con.close();
+        }
+    }
     public static String checkLogin(String username, String password) throws SQLException, ClassNotFoundException {
         String name = "";
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
+        
         String sql = "select fullname "
                 + "from tblUsers "
                 + "where userID = ? COLLATE " + DIS_UP_AND_LOW
@@ -41,15 +56,7 @@ public class UserDAO {
             }
 
         } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (ps != null) {
-                ps.close();
-            }
-            if (con != null) {
-                con.close();
-            }
+            closeConnection();
         }
         return name;
     }
