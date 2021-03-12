@@ -21,9 +21,6 @@ public class Log {
 
     public Log(String filename) throws SecurityException, IOException {
         File f = new File(filename);
-        if (!f.exists()) {
-            boolean create = f.createNewFile();
-        }
         FileHandler fh = new FileHandler(filename, true);
         logger = Logger.getLogger("test");
         logger.addHandler(fh);
